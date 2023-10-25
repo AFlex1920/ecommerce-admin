@@ -12,6 +12,7 @@ export default function ProductForm({
   images: existingImages,
   category: assignedCategory,
   properties: assignedProperties,
+  quantity: existingQuantity,
 }) {
   const [title, setTitle] = useState(existingTitle || "");
   const [description, setDescription] = useState(existingDescription || "");
@@ -19,6 +20,7 @@ export default function ProductForm({
   const [productProperties, setProductProperties] = useState(
     assignedProperties || {}
   );
+  const [quantity, setQuantity] = useState(existingQuantity || 0);
   const [price, setPrice] = useState(existingPrice || "");
   const [images, setImages] = useState(existingImages || []);
   const [goToProducts, setGoToProducts] = useState(false);
@@ -39,12 +41,14 @@ export default function ProductForm({
       title,
       description,
       price,
+      quantity,
       images,
       category,
       properties: productProperties,
     };
     if (_id) {
       //update
+      console.log(data);
       await axios.put("/api/products", { ...data, _id });
     } else {
       //create
@@ -167,6 +171,13 @@ export default function ProductForm({
           <input type="file" onChange={uploadImages} className="hidden" />
         </label>
       </div>
+      <label>Quantity</label>
+      <input
+        type="number"
+        placeholder="Quantity's product"
+        value={quantity}
+        onChange={(ev) => setQuantity(ev.target.value)}
+      />
       <label>Description</label>
       <textarea
         placeholder="description"
